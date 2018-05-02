@@ -122,13 +122,12 @@ void mousepress(int button, int state, int x, int y) {
 
   if(state == GLUT_DOWN) {
 
-    mouse_x = x;
-    mouse_y = y;
     //(x,y) are in window coordinates, where the origin is in the upper
     //left corner; our reference system has the origin in lower left
     //corner, this means we have to reflect y
-    mouse_y = WINDOWSIZE - mouse_y; 
-    printf("mouse pressed at (%d,%d)\n", mouse_x, mouse_y); 
+    mouse_x = (double)x;
+    mouse_y = (double)(WINDOWSIZE - y); 
+    printf("mouse pressed at (%.1f,%.1f)\n", mouse_x, mouse_y); 
   }
   
   glutPostRedisplay();

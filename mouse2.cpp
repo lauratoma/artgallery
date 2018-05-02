@@ -63,7 +63,7 @@ const int WINDOWSIZE = 750;
 vector<point2D>  poly;
 
 //coordinates of last mouse click
-double mouse_x=-10, mouse_y=-10; 
+double mouse_x=-10.0, mouse_y=-10.0; 
 //initialized to a point outside the window
 
 //when this is 1, then clicking the mouse results in those points being stored in poly
@@ -118,14 +118,14 @@ void mousepress(int button, int state, int x, int y) {
 
   if(state == GLUT_DOWN) {
 
-    mouse_x = x;
-    mouse_y = y;
+
     //(x,y) are in wndow coordinates, where the origin is in the upper
     //left corner; our reference system has the origin in lower left
     //corner, this means we have to reflect y
-    mouse_y = WINDOWSIZE - mouse_y; 
+    mouse_x = (double)x;
+    mouse_y = (double)(WINDOWSIZE - y); 
 
-    printf("mouse click at (x=%d, y=%d)\n", (int)mouse_x, (int)mouse_y);
+    printf("mouse click at (x=%.1f, y=%.1f)\n", mouse_x, mouse_y);
 
     if (poly_init_mode ==1) {
       point2D p = {mouse_x, mouse_y}; 
