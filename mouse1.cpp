@@ -76,11 +76,11 @@ double mouse_x=-10, mouse_y=-10;
 
 
 
-
+//draw a circle with center = (x,y)
 void draw_circle(double x, double y){
   glColor3fv(blue);   
-  int precision = 100;
-  double r = 4; 
+  int precision = 10;
+  double r = 20; 
   double theta = 0;
   glBegin(GL_POLYGON);
   for(int i = 0; i < precision; i++){
