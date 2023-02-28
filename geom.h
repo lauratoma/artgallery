@@ -1,23 +1,14 @@
 #ifndef __geom_h
 #define __geom_h
 
+#include <vector>
+
+using namespace std; 
 
 
 typedef struct _point2d {
   int x,y; 
-} point2D;
-
-
-
-/*  If you use plain C you will need to implement a linked list, which
-    will store the result returned by the convex hullx */ 
-
-//a list of points 
-typedef struct _pointNode pointNode; 
-struct _pointNode  {
-  point2D p;
-  pointNode* next;
-}; 
+} point2d;
 
 
 
@@ -25,26 +16,24 @@ struct _pointNode  {
    positive if c is to the left of ab, 0 if a,b,c are collinear and
    negative if c is to the right of ab
  */
-int signed_area2D(point2D a, point2D b, point2D c); 
+int signed_area2D(point2d a, point2d b, point2d c); 
 
 
 /* return 1 if p,q,r collinear, and 0 otherwise */
-int collinear(point2D p, point2D q, point2D r);
+int collinear(point2d p, point2d q, point2d r);
 
 
 /* return 1 if c is  strictly left of ab; 0 otherwise */
-int left_strictly (point2D a, point2D b, point2D c); 
+int left_strictly (point2d a, point2d b, point2d c); 
 
 
 /* return 1 if c is left of ab or on ab; 0 otherwise */
-int left_on(point2D a, point2D b, point2D c); 
+int left_on(point2d a, point2d b, point2d c); 
 
 
 
-/* compute the convex hull of the points in p; the points on the CH
-   are returned as a list or vector.
-*/
-pointNode* graham_scan(point2D* p, int n);
-
+// compute the convex hull 
+void graham_scan(vector<point2d>& pts, vector<point2d>& hull);
+  
 
 #endif

@@ -13,7 +13,8 @@ CFLAGS+= -Wall
 
 ifeq ($(PLATFORM),Darwin)
 ## Mac OS X
-CFLAGS += -m64 -isystem/usr/local/include -Wno-deprecated 
+CFLAGS += -m64  -Wno-deprecated
+INCLUDEPATH=-I/system/usr/local/include 
 LDFLAGS+= -m64 -lc -framework AGL -framework OpenGL -framework GLUT -framework Foundation
 else
 ## Linux
@@ -27,25 +28,22 @@ endif
 CC = g++ -O3 -Wall $(INCLUDEPATH)
 
 
-PROGS = mouse1 mouse2
+PROGS = guard
 
 default: $(PROGS)
 
-mouse1: mouse1.o
-	$(CC) -o $@ mouse1.o  $(LDFLAGS)
+guard: guard.o geom.o
+	$(CC) -o $@ guard.o geom.o  $(LDFLAGS)
 
-mouse2: mouse2.o
-	$(CC) -o $@ mouse2.o  $(LDFLAGS)
+guard.o: guard.cpp  geom.h 
+	$(CC) -c $(CFLAGS)   guard.cpp  -o $@
 
-
-mouse1.o: mouse1.cpp  geom.h 
-	$(CC) -c $(INCLUDEPATH) $(CFLAGS) mouse1.cpp  -o $@
-mouse2.o: mouse2.cpp  geom.h 
-	$(CC) -c $(INCLUDEPATH) $(CFLAGS) mouse2.cpp  -o $@
+geom.o: geom.cpp geom.h 
+	$(CC) -c $(CFLAGS)  geom.cpp -o $@
 
 
-clean::	
+clean:
 	rm *.o
-	rm mouse1 mouse2
+	rm guard
 
 
