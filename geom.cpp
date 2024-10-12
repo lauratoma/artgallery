@@ -47,7 +47,7 @@ int left_on(point2d a, point2d b, point2d c) {
 void graham_scan(vector<point2d>& pts, vector<point2d>& hull ) {
 
   printf("hull2d (graham scan): start\n"); 
-  hull.clear(); //should be empty, but cleara it to be safe
+  hull.clear(); //should be empty, but clear it to be safe
 
   //just for fun: at the moment the hull is the bounding box of pts!
   //erase this and insert your code instead

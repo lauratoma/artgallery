@@ -1,12 +1,8 @@
-/* mouse1.c 
+/*
+  
+Startup code for the art gallery project
+Computational Geometry 
 Laura Toma
-
-Example using the mouse in OpenGL.  First the mouse is registered via
-a callback function. Once registered, this function will be called on
-any mouse event in the window.  The user can use this function to
-respond to mouse events. This code will print the coordinates of the
-point where the mouse is clicked, and will draw a small blue disk at
-the point where the mouse is pressed.
 
 */
 #include "geom.h" 
@@ -88,7 +84,7 @@ int main(int argc, char** argv) {
   glutDisplayFunc(display); 
   glutKeyboardFunc(keypress);
   glutMouseFunc(mousepress); 
-  //glutIdleFunc(timerfunc); //register this if you want it called aat every fraame
+  //glutIdleFunc(timerfunc); //register this if you want it called at every fraame
 
   /* init GL */
   /* set background color black*/
@@ -103,12 +99,13 @@ int main(int argc, char** argv) {
 
 
 /* ****************************** */
-/* initialize  polygon stored in global variable poly  */
-//Note: use our local coordinate system (0,0) to (WINSIZE,WINSIZE),
-//with the origin in the lower left corner.
+/* initialize  polygon stored in global variable poly  
+   The points are in our local coordinate system (0,WINSIZE) x (0, WINSIZE)
+   with the origin in the lower left corner.
+*/ 
 void initialize_polygon() {
   
-  //clear the vector, in case something was there 
+  //clear the vector, in case something was in it  
   poly.clear(); 
 
   double rad = 100; 
@@ -150,16 +147,15 @@ void draw_polygon(vector<point2d>& poly){
 
 
 
-/* our coordinate system is (0,0) x (WINDOWSIZE,WINDOWSIZE) with the
-   origin in the lower left corner 
+/* draw a circle with center at (x,y) or radius r
+   Our coordinate system is (0,WINSIZE) x (0, WINSIZE)
+   with the origin in the lower left corner.
 */
-//draw a circle with center = (x,y)
-void draw_circle(double x, double y){
+void draw_circle(double x, double y, int r){
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glColor3fv(blue);   
 
-  double r = 20;
   glBegin(GL_POLYGON);
   for(double theta = 0; theta < 2*M_PI; theta+=.3){
    glVertex2f(x + r*cos(theta), y + r*sin(theta));
@@ -184,9 +180,11 @@ void print_polygon(vector<point2d>& poly) {
 }
 
 
+
 /* ****************************** */
-/* This is the main render function. We registered this function to be
-   called by GL to render the window. 
+/*  This is the function that renders the window. We registered this
+   function as the "displayFunc". It will be called by GL everytime
+   the window needs to be rendered.
  */
 void display(void) {
 
@@ -196,27 +194,25 @@ void display(void) {
   glLoadIdentity();
 
 
-  /* The default GL window is [-1,1]x[-1,1] with the origin in the
-     center.  The camera is at (0,0,0) looking down negative
+  /* The default GL window is [-1,1]x[-1,1]x[-1,1] with the origin in
+     the center. The camera is at (0,0,0) looking down negative
      z-axis.  
 
-     The points are in the range (0,0) to (WINSIZE,WINSIZE), so they
+     The points are in the range [0, WINSIZE] x [0, WINSIZE] so they
      need to be mapped to [-1,1]x [-1,1] */
   
-  //First we scale down to [0,2] x [0,2] */ 
-  glScalef(2.0/WINDOWSIZE, 2.0/WINDOWSIZE, 1.0);  
-  /* Then we translate so the local origin goes in the middle of teh
-     window to (-WINDOWSIZE/2, -WINDOWSIZE/2) */
+   //scale the points to [0,2]x[0,2]
+  glScalef(2.0/WINDOWSIZE, 2.0/WINDOWSIZE, 1.0);
+  //first translate the points to [-WINDOWSIZE/2, WINDOWSIZE/2]
   glTranslatef(-WINDOWSIZE/2, -WINDOWSIZE/2, 0); 
-  
-  //now we draw in our local coordinate system (0,0) to
-  //(WINSIZE,WINSIZE), with the origin in the lower left corner.
 
-  draw_polygon(poly); 
+  //draw the polygon stored in teh global variable "poly"
+   draw_polygon(poly); 
 
   //draw a circle where the mouse was last clicked. Note that this
-  //point is stored as a global variable and is modified by the mouse handler function 
-  draw_circle(mouse_x, mouse_y); 
+  //point is stored in global variables mouse_x, mouse_y, which are
+  //updated by the mouse handler function
+  draw_circle(mouse_x, mouse_y, 20); 
 
   /* execute the drawing commands */
   glFlush();
@@ -284,19 +280,5 @@ void timerfunc() {
 
 }
 
-
-
-
-/* Handler for window re-size event. Called back when the window first appears and
-   whenever the window is re-sized with its new width and height */
-void reshape(GLsizei width, GLsizei height) {  // GLsizei for non-negative integer
-     
-   // Set the viewport to cover the new window
-   glViewport(0, 0, width, height);
- 
-   glMatrixMode(GL_PROJECTION);  // operate on the Projection matrix
-   glLoadIdentity();             // reset
-   gluOrtho2D(0.0, (GLdouble) width, 0.0, (GLdouble) height); 
-}
 
 
