@@ -147,7 +147,7 @@ void draw_polygon(vector<point2d>& poly){
 
 
 
-/* draw a circle with center at (x,y) or radius r
+/* draw a circle with center at (x,y) of radius r
    Our coordinate system is (0,WINSIZE) x (0, WINSIZE)
    with the origin in the lower left corner.
 */
@@ -206,7 +206,7 @@ void display(void) {
   //first translate the points to [-WINDOWSIZE/2, WINDOWSIZE/2]
   glTranslatef(-WINDOWSIZE/2, -WINDOWSIZE/2, 0); 
 
-  //draw the polygon stored in teh global variable "poly"
+  //draw the polygon stored in the global variable "poly"
    draw_polygon(poly); 
 
   //draw a circle where the mouse was last clicked. Note that this
